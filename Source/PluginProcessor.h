@@ -9,6 +9,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "FIRFilter.h"
+
 
 //==============================================================================
 /**
@@ -54,6 +56,10 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+
+	FIRFilter<float> leftChannelFilter;
+	FIRFilter<float> rightChannelFilter;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LowpassFilterAudioProcessor)
 };

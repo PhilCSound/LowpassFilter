@@ -144,18 +144,17 @@ void LowpassFilterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
-    }
+
+	auto* channelDataL = buffer.getWritePointer(0);
+	auto* channelDataR = buffer.getWritePointer(1);
+
+	for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+	{
+		
+		channelDataL[sample] = leftChannelFilter.calculate(buffer.getSample(0, sample));
+		channelDataR[sample] = rightChannelFilter.calculate(buffer.getSample(1, sample));
+	}
 }
 
 //==============================================================================
