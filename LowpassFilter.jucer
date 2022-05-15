@@ -4,6 +4,7 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="nn6iF7" name="LowpassFilter">
     <GROUP id="{03253C00-C524-9BC5-8AE8-3CF81CF2726A}" name="Source">
+      <FILE id="p45CvE" name="IIRFilter.h" compile="0" resource="0" file="Source/IIRFilter.h"/>
       <FILE id="gmSvYR" name="FIRFilter.h" compile="0" resource="0" file="Source/FIRFilter.h"/>
       <FILE id="GPmjMV" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
       <FILE id="taUE3V" name="PluginProcessor.cpp" compile="1" resource="0"

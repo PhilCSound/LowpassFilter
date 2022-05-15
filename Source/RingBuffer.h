@@ -8,6 +8,8 @@
   ==============================================================================
 */
 
+
+//NASTY BUGS if size 0 or 1, but at that point its not a ring buffer now is it?
 #pragma once
 #include <vector>
 

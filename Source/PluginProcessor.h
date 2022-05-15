@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "FIRFilter.h"
+#include "IIRFilter.h"
 
 
 //==============================================================================
@@ -57,8 +58,8 @@ public:
 
 private:
 
-	FIRFilter<float> leftChannelFilter;
-	FIRFilter<float> rightChannelFilter;
+	IIRFilter<float> leftChannelFilter;
+	IIRFilter<float> rightChannelFilter;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LowpassFilterAudioProcessor)
