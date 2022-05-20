@@ -4,6 +4,15 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="nn6iF7" name="LowpassFilter">
     <GROUP id="{03253C00-C524-9BC5-8AE8-3CF81CF2726A}" name="Source">
+      <FILE id="uhX2ZY" name="FilterDesign.cpp" compile="1" resource="0"
+            file="Source/FilterDesign.cpp"/>
+      <FILE id="yGZ1vC" name="FilterEquationEnum.h" compile="0" resource="0"
+            file="Source/FilterEquationEnum.h"/>
+      <FILE id="XbVXgh" name="FilterDesign.h" compile="0" resource="0" file="Source/FilterDesign.h"/>
+      <FILE id="owOrkh" name="FilterTypeEnum.h" compile="0" resource="0"
+            file="Source/FilterTypeEnum.h"/>
+      <FILE id="HvTPs3" name="FilterCoef.cpp" compile="1" resource="0" file="Source/FilterCoef.cpp"/>
+      <FILE id="OBG7My" name="FilterCoef.h" compile="0" resource="0" file="Source/FilterCoef.h"/>
       <FILE id="p45CvE" name="IIRFilter.h" compile="0" resource="0" file="Source/IIRFilter.h"/>
       <FILE id="gmSvYR" name="FIRFilter.h" compile="0" resource="0" file="Source/FIRFilter.h"/>
       <FILE id="GPmjMV" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
