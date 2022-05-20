@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "FilterDesign.h"
 #include "FIRFilter.h"
 #include "IIRFilter.h"
 
@@ -57,9 +58,10 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+	//Member variables.
+	IIRFilter<float> leftChannelFilter { FilterDesign::GetCoef(FilterEquationEnum::BQD_FILTER, FilterTypeEnum::LOWPASS, 44100, 2000, .707) };
+	IIRFilter<float> rightChannelFilter{ FilterDesign::GetCoef(FilterEquationEnum::BQD_FILTER, FilterTypeEnum::LOWPASS, 44100, 2000, .707) };
 
-	IIRFilter<float> leftChannelFilter;
-	IIRFilter<float> rightChannelFilter;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LowpassFilterAudioProcessor)
