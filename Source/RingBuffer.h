@@ -62,7 +62,7 @@ Type RingBuffer<Type>::at(unsigned int index)
 {
 	unsigned int accessIndex;
 	if (index > m_firstIndex)
-		accessIndex = (m_bufferSize - 1) - (index - m_firstIndex);
+		accessIndex = (m_bufferSize - (index - m_firstIndex));
 	else
 		accessIndex = m_firstIndex - index;
 	//This will return an exception when over m_bufferSize.
