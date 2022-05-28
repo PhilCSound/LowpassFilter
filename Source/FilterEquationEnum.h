@@ -15,5 +15,5 @@
 
 enum FilterEquationEnum
 {
-	BQD_FILTER = 0, BUTTERWORTH
+	BUTTERWORTH = 0
 };

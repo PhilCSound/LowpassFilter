@@ -10,7 +10,11 @@
 
 #pragma once
 
+////
+//	Flat Low/Highpass are filters at which Q is locked to .7071 but can be cascaded for multiple slopes.
+//	Resonant low/highpass are only 2nd order filters (12db/oct) but have a variable Q which can be changed.
+////
 enum FilterTypeEnum
 {
-	LOWPASS, HIGHPASS
+	FLAT_LOWPASS, FLAT_HIGHPASS, RESONANT_LOWPASS, RESONANT_HIGHPASS
 };

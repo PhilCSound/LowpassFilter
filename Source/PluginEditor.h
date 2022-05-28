@@ -14,7 +14,7 @@
 //==============================================================================
 /**
 */
-class LowpassFilterAudioProcessorEditor  : public juce::AudioProcessorEditor
+class LowpassFilterAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Slider::Listener
 {
 public:
     LowpassFilterAudioProcessorEditor (LowpassFilterAudioProcessor&);
@@ -23,11 +23,13 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+	void sliderValueChanged(juce::Slider* slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     LowpassFilterAudioProcessor& audioProcessor;
+	juce::Slider cutoffSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LowpassFilterAudioProcessorEditor)
 };

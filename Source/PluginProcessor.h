@@ -9,9 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "FilterDesign.h"
-#include "FIRFilter.h"
-#include "IIRFilter.h"
+#include "Equalizer.h"
 
 
 //==============================================================================
@@ -57,10 +55,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+	Equalizer leftChannelEQ;
+	Equalizer rightChannelEQ;
+
 private:
 	//Member variables.
-	IIRFilter<float> leftChannelFilter { FilterDesign::GetCoef(FilterEquationEnum::BQD_FILTER, FilterTypeEnum::LOWPASS, 44100, 2000, .707) };
-	IIRFilter<float> rightChannelFilter{ FilterDesign::GetCoef(FilterEquationEnum::BQD_FILTER, FilterTypeEnum::LOWPASS, 44100, 2000, .707) };
+
 
 
     //==============================================================================

@@ -21,3 +21,8 @@ FilterCoef::FilterCoef(double _a0, double _a1, double _a2, double _b0, double _b
 	: a0(_a0), a1(_a1), a2(_a2), b0(_b0), b1(_b1), b2(_b2)
 {
 }
+
+FilterCoef FilterCoef::GetBlankCoef()
+{
+	return FilterCoef(0, 0, 0, 1, 0, 0);
+}

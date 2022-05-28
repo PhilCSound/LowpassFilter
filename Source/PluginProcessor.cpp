@@ -152,8 +152,8 @@ void LowpassFilterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 	for (int sample = 0; sample < buffer.getNumSamples(); sample++)
 	{
 		
-		channelDataL[sample] = leftChannelFilter.calculate(buffer.getSample(0, sample));
-		channelDataR[sample] = rightChannelFilter.calculate(buffer.getSample(1, sample));
+		channelDataL[sample] = leftChannelEQ.process(buffer.getSample(0, sample));
+		channelDataR[sample] = rightChannelEQ.process(buffer.getSample(1, sample));
 	}
 }
 

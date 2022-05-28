@@ -9,16 +9,17 @@
 */
 
 #pragma once
+#include "FilterParameters.h"
 #include "FilterCoef.h"
-#include "FilterEquationEnum.h"
-#include "FilterTypeEnum.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <algorithm>
 
 namespace FilterDesign
 {
-	FilterCoef GetCoef(FilterEquationEnum equation, FilterTypeEnum filtType, 
-		double SampleRate, double Cutoff, double qResonance);
-	
+
+	//Gets coef order = cascaded filter order.
+	FilterCoef GetCoef(FilterEquationEnum equation, FilterTypeEnum filtType, FilterSlopeEnum slope,
+		double SampleRate, double Cutoff, double qResonance, unsigned int order = 1);
+	FilterCoef GetCoef(FilterParameters params, unsigned int order = 1);
 }

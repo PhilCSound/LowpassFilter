@@ -51,7 +51,6 @@ FloatType IIRFilter<FloatType>::calculate(FloatType input)
 {
 	m_inputBuffer.insert(input);
 	FloatType output = 0.0;
-	
 	//This was the old process, I like it cause it can support multiple orders. Keeping for if we change design
 
 	//for (int i = 0; i < m_inputBuffer.getSize(); i++)

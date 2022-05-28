@@ -4,6 +4,16 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="nn6iF7" name="LowpassFilter">
     <GROUP id="{03253C00-C524-9BC5-8AE8-3CF81CF2726A}" name="Source">
+      <FILE id="kGM9SI" name="FilterParameters.cpp" compile="1" resource="0"
+            file="Source/FilterParameters.cpp"/>
+      <FILE id="ulqa1I" name="FilterParameters.h" compile="0" resource="0"
+            file="Source/FilterParameters.h"/>
+      <FILE id="ustf57" name="FilterSlopeEnum.h" compile="0" resource="0"
+            file="Source/FilterSlopeEnum.h"/>
+      <FILE id="V1FDsI" name="Equalizer.cpp" compile="1" resource="0" file="Source/Equalizer.cpp"/>
+      <FILE id="Of8bnT" name="Equalizer.h" compile="0" resource="0" file="Source/Equalizer.h"/>
+      <FILE id="KSVd5l" name="EQBand.cpp" compile="1" resource="0" file="Source/EQBand.cpp"/>
+      <FILE id="qfqr0w" name="EQBand.h" compile="0" resource="0" file="Source/EQBand.h"/>
       <FILE id="uhX2ZY" name="FilterDesign.cpp" compile="1" resource="0"
             file="Source/FilterDesign.cpp"/>
       <FILE id="yGZ1vC" name="FilterEquationEnum.h" compile="0" resource="0"
