@@ -10,15 +10,23 @@
 
 #pragma once
 #include "EQBand.h"
+#include <vector>
 
 class Equalizer
 {
 public:
 	Equalizer();
 
+	//Member Functions
+	const bool isBandEnabled(unsigned int bandNumber);
+	const FilterParameters getFilterParameters(unsigned int bandNumber);
 	float process(float input);
-	void setCutoff(double cutoff);
+	void setCutoff(unsigned int bandNumber, double cutoff);
 
 private:
-	EQBand band1;
+	//Member functions
+	bool IsBandNumberValid(unsigned int);
+
+	//Member Variables
+	std::vector<EQBand> m_EqBands;
 };

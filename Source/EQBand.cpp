@@ -29,6 +29,11 @@ EQBand::EQBand(FilterParameters params, bool enabled)
 	updateCoefs();
 }
 
+const FilterParameters EQBand::getFilterParams()
+{
+	return m_Parameters;
+}
+
 const bool EQBand::isEnabled()
 {
 	return m_IsEnabled;
@@ -43,6 +48,13 @@ void EQBand::setCutoff(double cutoff)
 void EQBand::setEnabled(bool enabled)
 {
 	m_IsEnabled = enabled;
+}
+
+void EQBand::setParams(FilterParameters params, bool enabled)
+{
+	m_Parameters = params;
+	m_IsEnabled = enabled;
+	updateCoefs();
 }
 
 void EQBand::setResonance(double resonance)
@@ -75,12 +87,13 @@ void EQBand::setType(FilterTypeEnum type)
 
 float EQBand::process(float input)
 {
-	float output = input;
-	for (auto& filt : m_CascadedFilters)
-		output = filt.calculate(output);
-	
 	if (!m_IsEnabled)
 		return input;
+
+	float output = input;
+	
+	for (int i = 0; i < m_Parameters.getSlope(); i++)
+		output = m_CascadedFilters[i].calculate(output);
 	
 	return output;
 }
@@ -99,7 +112,7 @@ void EQBand::createResonantSlope()
 {
 	//Flat filters are only one biquad so we set all to blank aside from the first
 	m_CascadedFilters.at(0).coef = FilterDesign::GetCoef(m_Parameters);
-	for (int i = 1; i <= m_CascadedFilters.size(); i++)
+	for (int i = 1; i < m_CascadedFilters.size(); i++)
 		m_CascadedFilters.at(i).coef = FilterCoef::GetBlankCoef();
 }
 

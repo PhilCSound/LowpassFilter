@@ -24,9 +24,11 @@ public:
 	EQBand(FilterParameters params, bool enabled = true);
 
 
+	const FilterParameters getFilterParams();
 	const bool isEnabled();
 	void setCutoff(double cutoff);
 	void setEnabled(bool enabled);
+	void setParams(FilterParameters params, bool enabled = true);
 	void setResonance(double resonance);
 	void setSlope(FilterSlopeEnum slope);
 	void setType(FilterTypeEnum type);
