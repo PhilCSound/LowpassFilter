@@ -22,10 +22,16 @@ LowpassFilterAudioProcessor::LowpassFilterAudioProcessor()
                        )
 #endif
 {
+    init_rbuf(44100, &LEFT_BUFFER);
+    init_rbuf(44100, &RIGHT_BUFFER);
 }
 
 LowpassFilterAudioProcessor::~LowpassFilterAudioProcessor()
 {
+//    free(&LEFT_BUFFER);
+//    free(&RIGHT_BUFFER);
+    delete_rbuf(&LEFT_BUFFER);
+    delete_rbuf(&RIGHT_BUFFER);
 }
 
 //==============================================================================
@@ -134,7 +140,6 @@ void LowpassFilterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -143,6 +148,7 @@ void LowpassFilterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -153,6 +159,20 @@ void LowpassFilterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
+
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+        {
+            if (channel == 0) {
+                float input = buffer.getSample(0, sample);
+                input_value(input, &LEFT_BUFFER);
+                channelData[sample] = get_value((LEFT_BUFFER.size-1), &LEFT_BUFFER);
+            }
+            else {
+                float input = buffer.getSample(1, sample);
+                input_value(input, &RIGHT_BUFFER);
+                channelData[sample] = get_value((RIGHT_BUFFER.size-1), &RIGHT_BUFFER);
+            }
+        }
 
         // ..do something to the data...
     }

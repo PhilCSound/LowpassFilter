@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ar4JPe" name="LowpassFilter" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" displaySplashScreen="1">
   <MAINGROUP id="nn6iF7" name="LowpassFilter">
     <GROUP id="{03253C00-C524-9BC5-8AE8-3CF81CF2726A}" name="Source">
+      <FILE id="Su6fKb" name="ring_buffer.cpp" compile="1" resource="0" file="Source/ring_buffer.cpp"/>
+      <FILE id="whbuff" name="ring_buffer.h" compile="0" resource="0" file="Source/ring_buffer.h"/>
       <FILE id="taUE3V" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="VANbXS" name="PluginProcessor.h" compile="0" resource="0"

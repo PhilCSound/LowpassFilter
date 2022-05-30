@@ -9,7 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-
+#include "ring_buffer.h"
 //==============================================================================
 /**
 */
@@ -52,6 +52,10 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+
+    r_buf LEFT_BUFFER;
+    r_buf RIGHT_BUFFER;
+
 
 private:
     //==============================================================================
