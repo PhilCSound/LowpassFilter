@@ -17,6 +17,7 @@ LowpassFilterAudioProcessorEditor::LowpassFilterAudioProcessorEditor(LowpassFilt
 	// editor's size to whatever you need it to be.
 	setSize(400, 300);
 	UpdateBandInfo();
+
 	cutoffSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 	cutoffSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 25);
 	cutoffSlider.setRange(30.0, 20000.0, 1.0);
@@ -24,8 +25,16 @@ LowpassFilterAudioProcessorEditor::LowpassFilterAudioProcessorEditor(LowpassFilt
 	cutoffSlider.setValue(m_currentFilterParams.getCutoff());
 	cutoffSlider.addListener(this);
 	cutoffSlider.setSize(200, 150);
-	cutoffSlider.setTopLeftPosition(200, 150);
+	cutoffSlider.setTopLeftPosition(0, 150);
 	addAndMakeVisible(cutoffSlider);
+	
+	resSlopeSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+	resSlopeSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 25);
+	resSlopeSlider.addListener(this);
+	resSlopeSlider.setSize(200, 150);
+	resSlopeSlider.setTopLeftPosition(200, 150);
+	addAndMakeVisible(resSlopeSlider);
+
 
 	addAndMakeVisible(m_bandSelector);
 	m_bandSelector.addItem("Band 1", 1);
@@ -65,10 +74,25 @@ void LowpassFilterAudioProcessorEditor::resized()
 
 void LowpassFilterAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
-	if (slider != &cutoffSlider)
-		return;
-	audioProcessor.leftChannelEQ.setCutoff(currentBand, cutoffSlider.getValue());
-	audioProcessor.rightChannelEQ.setCutoff(currentBand, cutoffSlider.getValue());
+	if (slider == &cutoffSlider)
+	{
+		audioProcessor.leftChannelEQ.setCutoff(currentBand, cutoffSlider.getValue());
+		audioProcessor.rightChannelEQ.setCutoff(currentBand, cutoffSlider.getValue());
+	}
+	if (slider == &resSlopeSlider)
+	{
+		FilterTypeEnum type = m_currentFilterParams.getFilterType();
+		if (type == FLAT_HIGHPASS || type == FLAT_LOWPASS)
+		{
+			audioProcessor.leftChannelEQ.setSlope(currentBand, (FilterSlopeEnum)((int)resSlopeSlider.getValue()));
+			audioProcessor.rightChannelEQ.setSlope(currentBand, (FilterSlopeEnum)((int)resSlopeSlider.getValue()));
+		}
+		else
+		{
+			audioProcessor.leftChannelEQ.setResonance(currentBand, resSlopeSlider.getValue());
+			audioProcessor.rightChannelEQ.setResonance(currentBand, resSlopeSlider.getValue());
+		}
+	}
 }
 
 //
@@ -87,4 +111,27 @@ void LowpassFilterAudioProcessorEditor::UpdateBandInfo()
 
 	m_currentFilterParams = audioProcessor.leftChannelEQ.getFilterParameters(currentBand);
 	cutoffSlider.setValue(m_currentFilterParams.getCutoff());
+	UpdateResSlopeSlider();
+}
+
+void LowpassFilterAudioProcessorEditor::UpdateResSlopeSlider()
+{
+	resSlopeSlider.setEnabled(false);
+	FilterTypeEnum type = m_currentFilterParams.getFilterType();
+	if (type == FLAT_HIGHPASS || type == FLAT_LOWPASS)
+	{
+		resSlopeSlider.setRange(0, FOURTY_EIGHT_DB, 1);
+		resSlopeSlider.setSkewFactorFromMidPoint(3);
+		resSlopeSlider.setValue((double)m_currentFilterParams.getSlope());
+		resSlopeSlider.setTooltip("Filter Slope");
+	}
+	else
+	{
+		resSlopeSlider.setRange(.01, 18.0, .001);
+		resSlopeSlider.setSkewFactorFromMidPoint(.707);
+		resSlopeSlider.setValue(m_currentFilterParams.getResonance());
+		resSlopeSlider.setTooltip("Resonance");
+	}
+	resSlopeSlider.setEnabled(true);
+
 }
