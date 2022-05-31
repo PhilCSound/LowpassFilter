@@ -17,9 +17,15 @@
 
 namespace FilterDesign
 {
+	FilterCoef GetFirstOrderHighpass(FilterParameters params);
+	FilterCoef GetFirstOrderLowpass(FilterParameters params);
+	FilterCoef GetSecondOrderHighpass(FilterParameters params);
+	FilterCoef GetSecondOrderLowpass(FilterParameters params);
+	FilterCoef CascadeSecondOrderHighpass(FilterParameters params, int cascadedNum = 0, unsigned int num2ndOrdFilter = 1);
+	FilterCoef CascadeSecondOrderLowpass(FilterParameters params, int cascadedNum = 0, unsigned int num2ndOrdFilter = 1);
+	FilterCoef Cascade1stAnd2ndOrderHighpass(FilterParameters params, int cascadedNum = 0, unsigned int numBiquads = 1);
+	FilterCoef Cascade1stAnd2ndOrderLowpass(FilterParameters params, int cascadedNum = 0, unsigned int numBiquads = 1);
 
-	//Gets coef order = cascaded filter order.
-	FilterCoef GetCoef(FilterEquationEnum equation, FilterTypeEnum filtType, FilterSlopeEnum slope,
-		double SampleRate, double Cutoff, double qResonance, unsigned int order = 1);
-	FilterCoef GetCoef(FilterParameters params, unsigned int order = 1);
+
+	FilterCoef GetCoefs(FilterParameters params);
 }
