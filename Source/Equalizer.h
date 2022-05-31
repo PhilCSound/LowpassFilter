@@ -22,6 +22,8 @@ public:
 	const FilterParameters getFilterParameters(unsigned int bandNumber);
 	float process(float input);
 	void setCutoff(unsigned int bandNumber, double cutoff);
+	void setResonance(unsigned int bandNumber, double resonance);
+	void setSlope(unsigned int bandNumber, FilterSlopeEnum slope);
 
 private:
 	//Member functions

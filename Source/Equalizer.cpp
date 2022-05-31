@@ -55,6 +55,18 @@ void Equalizer::setCutoff(unsigned int bandNumber, double cutoff)
 		m_EqBands[bandNumber].setCutoff(cutoff);
 }
 
+void Equalizer::setResonance(unsigned int bandNumber, double resonance)
+{
+	if (IsBandNumberValid(bandNumber))
+		m_EqBands[bandNumber].setResonance(resonance);
+}
+
+void Equalizer::setSlope(unsigned int bandNumber, FilterSlopeEnum slope)
+{
+	if (IsBandNumberValid(bandNumber))
+		m_EqBands[bandNumber].setSlope(slope);
+}
+
 bool Equalizer::IsBandNumberValid(unsigned int bandNum)
 {
 	if (bandNum < m_EqBands.size())
