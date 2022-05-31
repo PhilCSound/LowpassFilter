@@ -53,7 +53,7 @@ FloatType IIRFilter<FloatType>::calculate(FloatType input)
 	
 	//Process the sample
 	output = coef.b0 * input + coef.b1 * m_prevIn + coef.b2 * m_prevIn1
-		 - coef.a1 * m_prevOut - coef.a2 * m_prevIn1;
+		 - coef.a1 * m_prevOut - coef.a2 * m_prevOut1;
 
 	//Update prev Vars
 	m_prevIn1 = m_prevIn;
