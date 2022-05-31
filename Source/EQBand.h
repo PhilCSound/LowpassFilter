@@ -37,11 +37,12 @@ public:
 private:
 	//Member Functions
 	void updateCoefs();
-	void createFlatSlope();
+	void createCascadedSlope(bool isLowpass = true);
 	void createResonantSlope();
 
 	//Member Variables
 	bool m_IsEnabled = true;
+	unsigned int m_numOfBiquads = 0;
 	FilterParameters m_Parameters;
 	std::vector<IIRFilter<float>> m_CascadedFilters;
 

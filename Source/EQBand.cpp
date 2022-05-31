@@ -74,7 +74,7 @@ void EQBand::setSlope(FilterSlopeEnum slope)
 	//Recalculate the coef's
 	FilterTypeEnum type = m_Parameters.getFilterType();
 	if (type == FLAT_LOWPASS || type == FLAT_HIGHPASS)
-		createFlatSlope();
+		createCascadedSlope();
 }
 
 void EQBand::setType(FilterTypeEnum type)
@@ -92,7 +92,7 @@ float EQBand::process(float input)
 
 	float output = input;
 	
-	for (int i = 0; i < m_Parameters.getSlope(); i++)
+	for (int i = 0; i < m_numOfBiquads; i++)
 		output = m_CascadedFilters[i].calculate(output);
 	
 	return output;
@@ -102,26 +102,44 @@ void EQBand::updateCoefs()
 {
 	FilterTypeEnum type = m_Parameters.getFilterType();
 	//Flat lowpass is only the first filter
-	if (type == FLAT_LOWPASS || type == FLAT_HIGHPASS)
-		createFlatSlope();
+	if (type == FLAT_LOWPASS)
+		createCascadedSlope(true);
+	if (type == FLAT_HIGHPASS)
+		createCascadedSlope(false);
 	else
 		createResonantSlope();
 }
 
 void EQBand::createResonantSlope()
 {
+	m_numOfBiquads = 1;
 	//Flat filters are only one biquad so we set all to blank aside from the first
-	m_CascadedFilters.at(0).coef = FilterDesign::GetCoef(m_Parameters);
+	m_CascadedFilters.at(0).coef = FilterDesign::GetCoefs(m_Parameters);
 	for (int i = 1; i < m_CascadedFilters.size(); i++)
 		m_CascadedFilters.at(i).coef = FilterCoef::GetBlankCoef();
 }
 
-void EQBand::createFlatSlope()
+void EQBand::createCascadedSlope(bool isLowpass)
 {
+	m_numOfBiquads = 1 + ((int)m_Parameters.getSlope() / 2);
+	bool stackAFirstOrderBiquad = !(int)m_Parameters.getSlope() & 1;
 	for (int i = 0; i < m_CascadedFilters.size(); i++)
 	{
-		if (i < (int)m_Parameters.getSlope())
-			m_CascadedFilters.at(i).coef = FilterDesign::GetCoef(m_Parameters, i);
+		if (i < m_numOfBiquads)
+		{
+			if (isLowpass)
+			{
+				if(stackAFirstOrderBiquad)
+					m_CascadedFilters.at(i).coef = FilterDesign::Cascade1stAnd2ndOrderLowpass(m_Parameters, i, m_numOfBiquads);
+				else
+					m_CascadedFilters.at(i).coef = FilterDesign::CascadeSecondOrderLowpass(m_Parameters, i, m_numOfBiquads);
+			}
+			else //Then its a highpass filter
+				if (stackAFirstOrderBiquad)
+					m_CascadedFilters.at(i).coef = FilterDesign::Cascade1stAnd2ndOrderHighpass(m_Parameters, i, m_numOfBiquads);
+				else
+					m_CascadedFilters.at(i).coef = FilterDesign::CascadeSecondOrderHighpass(m_Parameters, i, m_numOfBiquads);
+		}
 		else
 			m_CascadedFilters.at(i).coef = FilterCoef::GetBlankCoef();
 	}
