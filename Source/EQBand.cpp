@@ -104,7 +104,7 @@ void EQBand::updateCoefs()
 	//Flat lowpass is only the first filter
 	if (type == FLAT_LOWPASS)
 		createCascadedSlope(true);
-	if (type == FLAT_HIGHPASS)
+	else if (type == FLAT_HIGHPASS)
 		createCascadedSlope(false);
 	else
 		createResonantSlope();
@@ -114,7 +114,13 @@ void EQBand::createResonantSlope()
 {
 	m_numOfBiquads = 1;
 	//Flat filters are only one biquad so we set all to blank aside from the first
-	m_CascadedFilters.at(0).coef = FilterDesign::GetCoefs(m_Parameters);
+
+	//All pass is all blank coefs.
+	if (m_Parameters.getFilterType() == ALLPASS)
+		m_CascadedFilters.at(0).coef = FilterCoef::GetBlankCoef();
+	else
+		m_CascadedFilters.at(0).coef = FilterDesign::GetCoefs(m_Parameters);
+	
 	for (int i = 1; i < m_CascadedFilters.size(); i++)
 		m_CascadedFilters.at(i).coef = FilterCoef::GetBlankCoef();
 }

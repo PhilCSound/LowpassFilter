@@ -42,7 +42,7 @@ private:
 
 	//Member Variables
 	bool m_IsEnabled = true;
-	unsigned int m_numOfBiquads = 0;
+	unsigned int m_numOfBiquads = 1;
 	FilterParameters m_Parameters;
 	std::vector<IIRFilter<float>> m_CascadedFilters;
 
