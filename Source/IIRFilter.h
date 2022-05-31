@@ -9,7 +9,6 @@
 */
 
 #pragma once
-#include "RingBuffer.h"
 #include "FilterCoef.h"
 
 template <class FloatType>
@@ -27,44 +26,40 @@ public:
 	
 
 private:
-	RingBuffer<FloatType> m_inputBuffer;
-	RingBuffer<FloatType> m_outputBuffer;
+	float m_prevIn;
+	float m_prevIn1;
+	float m_prevOut;
+	float m_prevOut1;
 };
 
 //Template Definitions
 template <class FloatType>
 IIRFilter<FloatType>::IIRFilter()
-	: m_inputBuffer(3), m_outputBuffer(3)
+	: m_prevIn(0.0f), m_prevIn1(0.0f), m_prevOut(0.0f), m_prevOut1(0.0f)
 {
 }
 
 template <class FloatType>
 IIRFilter<FloatType>::IIRFilter(FilterCoef _coef)
-	: m_inputBuffer(3), m_outputBuffer(3)
+	: m_prevIn(0.0f), m_prevIn1(0.0f), m_prevOut(0.0f), m_prevOut1(0.0f), coef(_coef)
 {
-	coef = _coef;
 }
 
 
 template <class FloatType>
 FloatType IIRFilter<FloatType>::calculate(FloatType input)
 {
-	m_inputBuffer.insert(input);
 	FloatType output = 0.0;
-	//This was the old process, I like it cause it can support multiple orders. Keeping for if we change design
+	
+	//Process the sample
+	output = coef.b0 * input + coef.b1 * m_prevIn + coef.b2 * m_prevIn1
+		 - coef.a1 * m_prevOut - coef.a2 * m_prevIn1;
 
-	//for (int i = 0; i < m_inputBuffer.getSize(); i++)
-	//	output += AFilterCoeffecients[i] * m_inputBuffer.at(i) + BFilterCoeffecients[i] * m_outputBuffer.at(i);
+	//Update prev Vars
+	m_prevIn1 = m_prevIn;
+	m_prevIn = input;
+	m_prevOut1 = m_prevOut;
+	m_prevOut = output;
 
-	//Slightly Faster than above, at the cost of flexibility, this filter can only be a 2nd degree filter now.
-	output = coef.b0 * m_inputBuffer.at(0) + coef.b1 * m_inputBuffer.at(1) + coef.b2 * m_inputBuffer.at(2)
-		 - coef.a1 * m_outputBuffer.at(0) - coef.a2 * m_outputBuffer.at(1);
-
-	m_outputBuffer.insert(output);
-	//y[n] = ax[n] + (1-a) y[n-1],   0<a<1
-	//Cutoff freq =	a / 1 - (1-a) * z^(-1)
-	//A should equal apprx: 1-e^ (-freq)
-	//Exact A is:
-	// A = -y + sqrt(y^(2) + 2y)    where y =  1-cos(wc)  wc is cutoff in radians?
 	return output;
 }
