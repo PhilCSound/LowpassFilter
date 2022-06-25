@@ -8,8 +8,12 @@ class FilterCoef
 public:
 	FilterCoef();
 	FilterCoef(double _a0, double _a1, double _a2, double _b0, double _b1, double _b2);
-	double a0, a1, a2, b0, b1, b2;
+	
+	//Member functions
 	static FilterCoef GetBlankCoef();
+
+	//Member Variables
+	double a0, a1, a2, b0, b1, b2;
 
 private:
 };
