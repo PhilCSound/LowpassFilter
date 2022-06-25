@@ -10,9 +10,18 @@
 
 #include "EQBand.h"
 
-EQBand::EQBand(FilterEquationEnum equation, FilterTypeEnum filtType, FilterSlopeEnum slope,
-	double SampleRate, double Cutoff, double qResonance, bool enabled)
-	:	m_Parameters(equation, filtType, slope, SampleRate, Cutoff, qResonance),
+EQBand::EQBand()
+	: m_Parameters(), m_IsEnabled(false)
+{
+	m_CascadedFilters.reserve(4);
+	m_CascadedFilters.resize(4);
+	updateCoefs();
+}
+
+EQBand::EQBand(FilterTypeEnum filtType, double Cutoff, double qResonance,
+	double gainFactor, double SampleRate, FilterSlopeEnum slopeType, 
+	FilterEquationEnum equation, bool enabled)
+	:	m_Parameters(filtType, Cutoff, qResonance, gainFactor, SampleRate, slopeType, equation),
 		m_IsEnabled(enabled)
 {
 	m_CascadedFilters.reserve(4);
@@ -115,11 +124,7 @@ void EQBand::createResonantSlope()
 	m_numOfBiquads = 1;
 	//Flat filters are only one biquad so we set all to blank aside from the first
 
-	//All pass is all blank coefs.
-	if (m_Parameters.getFilterType() == ALLPASS)
-		m_CascadedFilters.at(0).coef = FilterCoef::GetBlankCoef();
-	else
-		m_CascadedFilters.at(0).coef = FilterDesign::GetCoefs(m_Parameters);
+	m_CascadedFilters.at(0).coef = FilterDesign::GetCoefs(m_Parameters);
 	
 	for (int i = 1; i < m_CascadedFilters.size(); i++)
 		m_CascadedFilters.at(i).coef = FilterCoef::GetBlankCoef();

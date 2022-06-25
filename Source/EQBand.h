@@ -17,9 +17,11 @@ class EQBand
 {
 
 public:
-	EQBand(	FilterEquationEnum equation = BUTTERWORTH, FilterTypeEnum filtType = RESONANT_LOWPASS,
-			FilterSlopeEnum slope = TWELVE_DB, double SampleRate = 44100, double Cutoff = 2000, 
-			double qResonance = .7071, bool enabled = true);
+	EQBand();
+	EQBand(FilterTypeEnum filtType, double Cutoff, double qResonance,
+		double gainFactor = 0.0, double SampleRate = 44100,
+		FilterSlopeEnum slopeType = TWELVE_DB, FilterEquationEnum equation = BUTTERWORTH,
+		bool enabled = true);
 	
 	EQBand(FilterParameters params, bool enabled = true);
 
