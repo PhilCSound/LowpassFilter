@@ -11,21 +11,28 @@
 #include "FilterParameters.h"
 
 FilterParameters::FilterParameters()
-	:	m_Equation(BUTTERWORTH), m_Type(RESONANT_LOWPASS), m_Slope(TWELVE_DB),
-		m_SampleRate(44100), m_Cutoff(2000), m_Q_Resonance(.7071)
+	:	m_Type(ALLPASS),			m_Cutoff(1000),				m_Q_Resonance(.7071),
+		m_GainFactor(0.0),			m_SampleRate(44100),
+		m_Slope(TWELVE_DB),			m_Equation(BUTTERWORTH)
 {
 }
 
-FilterParameters::FilterParameters(FilterEquationEnum equation, FilterTypeEnum filtType,
-	FilterSlopeEnum slopeType, double SampleRate, double Cutoff, double qResonance)
-	:	m_Equation(equation),		m_Type(filtType), m_Slope(slopeType), 
-		m_SampleRate(SampleRate),	m_Cutoff(Cutoff), m_Q_Resonance(qResonance)
+FilterParameters::FilterParameters(FilterTypeEnum filtType, double Cutoff, double qResonance,
+	double gainFactor, double SampleRate, FilterSlopeEnum slopeType, FilterEquationEnum equation)
+	:	m_Type(filtType),			m_Cutoff(Cutoff),			m_Q_Resonance(qResonance),
+		m_GainFactor(gainFactor),	m_SampleRate(SampleRate),	
+		m_Slope(slopeType),			m_Equation(equation)
 {
 }
 
 const FilterEquationEnum FilterParameters::getEquation()
 {
 	return m_Equation;
+}
+
+const double FilterParameters::getGainFactor()
+{
+	return m_GainFactor;
 }
 
 const FilterTypeEnum FilterParameters::getFilterType()
@@ -53,9 +60,27 @@ const double FilterParameters::getResonance()
 	return m_Q_Resonance;
 }
 
+bool FilterParameters::isFlatFilter() const
+{
+	return (m_Type == FLAT_HIGHPASS || m_Type == FLAT_LOWPASS);
+}
+
 void FilterParameters::setEquation(FilterEquationEnum equation)
 {
 	m_Equation = equation;
+}
+
+//gainFactor should already be in the form: 10^(db/40)
+//if not in this form set Gainfactor with:
+//setGainFactorInDecibels(double decibels);
+void FilterParameters::setGainFactor(double gainFactor)
+{
+	m_GainFactor = gainFactor;
+}
+
+void FilterParameters::setGainFactorInDecibels(double decibels)
+{
+	m_GainFactor = std::pow(10, (decibels / 40));
 }
 
 void FilterParameters::setType(FilterTypeEnum type)

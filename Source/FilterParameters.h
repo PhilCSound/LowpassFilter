@@ -12,23 +12,29 @@
 #include "FilterEquationEnum.h"
 #include "FilterSlopeEnum.h"
 #include "FilterTypeEnum.h"
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 class FilterParameters
 {
 
 public:
 	FilterParameters();
-	FilterParameters(FilterEquationEnum equation, FilterTypeEnum filtType,
-		FilterSlopeEnum slopeType, double SampleRate, double Cutoff, double qResonance);
+	FilterParameters(FilterTypeEnum filtType, double Cutoff, double qResonance, 
+		double gainFactor = 0.0, double SampleRate = 44100,
+		FilterSlopeEnum slopeType = TWELVE_DB, FilterEquationEnum equation = BUTTERWORTH);
 
 	const FilterEquationEnum getEquation();
+	const double getGainFactor();
 	const FilterTypeEnum getFilterType();
 	const FilterSlopeEnum getSlope();
 	const double getSampleRate();
 	const double getCutoff();
 	const double getResonance();
-
+	bool isFlatFilter() const;
 	void setEquation(FilterEquationEnum equation);
+	void setGainFactor(double gainFactor);
+	void setGainFactorInDecibels(double decibels);
 	void setType(FilterTypeEnum type);
 	void setSlope(FilterSlopeEnum slope);
 	void setSampleRate(double sampleRate);
@@ -36,11 +42,12 @@ public:
 	void setResonance(double q);
 
 private:
-	FilterEquationEnum m_Equation;
 	FilterTypeEnum m_Type;
-	FilterSlopeEnum m_Slope;
-	double m_SampleRate;
 	double m_Cutoff;
 	double m_Q_Resonance;
+	double m_GainFactor;
+	double m_SampleRate;
+	FilterSlopeEnum m_Slope;
+	FilterEquationEnum m_Equation;
 	
 };
