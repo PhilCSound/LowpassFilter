@@ -15,14 +15,14 @@ Equalizer::Equalizer()
 	m_EqBands.reserve(8);
 	m_EqBands.resize(8);
 
-	m_EqBands[0].setParams(FilterParameters(BUTTERWORTH, RESONANT_HIGHPASS, TWELVE_DB, 44100, 30, .7071));
-	m_EqBands[1].setParams(FilterParameters(BUTTERWORTH, ALLPASS, TWELVE_DB, 44100, 200, .7071), false);
-	m_EqBands[2].setParams(FilterParameters(BUTTERWORTH, ALLPASS, TWELVE_DB, 44100, 500, .7071), false);
-	m_EqBands[3].setParams(FilterParameters(BUTTERWORTH, ALLPASS, TWELVE_DB, 44100, 1000, .7071), false);
-	m_EqBands[4].setParams(FilterParameters(BUTTERWORTH, ALLPASS, TWELVE_DB, 44100, 5000, .7071), false);
-	m_EqBands[5].setParams(FilterParameters(BUTTERWORTH, ALLPASS, TWELVE_DB, 44100, 8000, .7071), false);
-	m_EqBands[6].setParams(FilterParameters(BUTTERWORTH, ALLPASS, TWELVE_DB, 44100, 10000, .7071), false);
-	m_EqBands[7].setParams(FilterParameters(BUTTERWORTH, FLAT_LOWPASS, FOURTY_EIGHT_DB, 44100, 20000, .7071));
+	m_EqBands[0].setParams(FilterParameters(RESONANT_HIGHPASS, 30, .707, 1.0));
+	m_EqBands[1].setParams(FilterParameters(PEAKING, 200, .707, 2.818)); //+6db
+	m_EqBands[2].setParams(FilterParameters(ALLPASS, 500, .707, 1.0), false);
+	m_EqBands[3].setParams(FilterParameters(ALLPASS, 1000, .707, 1.0), false);
+	m_EqBands[4].setParams(FilterParameters(ALLPASS, 2500, .707, 1.0), false);
+	m_EqBands[5].setParams(FilterParameters(ALLPASS, 5000, .707, 1.0), false);
+	m_EqBands[6].setParams(FilterParameters(ALLPASS, 10000, .707, 1.0), false);
+	m_EqBands[7].setParams(FilterParameters(FLAT_LOWPASS, 20000, .707, 1.0, 44100, FOURTY_EIGHT_DB));
 }
 
 const bool Equalizer::isBandEnabled(unsigned int bandNumber)
